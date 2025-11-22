@@ -578,6 +578,134 @@ export default function Groups() {
             </div>
           </div>
         )}
+
+        {/* Create Button */}
+        <button
+          onClick={() => setIsCreating(true)}
+          className="fixed bottom-24 right-5 flex items-center gap-2.5 rounded-full bg-gradient-to-r from-slate-900 to-slate-800 px-5 py-3.5 text-sm font-bold text-white shadow-xl transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl hover:scale-105 active:scale-100 z-10"
+        >
+          <Plus className="w-5 h-5" />
+          <span>Criar grupo</span>
+        </button>
+
+        {/* Create Modal */}
+        {isCreating && (
+          <div
+            className="fixed inset-0 z-30 flex items-end bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200"
+            onClick={() => setIsCreating(false)}
+          >
+            <div
+              className="w-full max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-slate-200 bg-white shadow-2xl animate-in slide-in-from-bottom duration-300"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Sheet Handle */}
+              <div className="flex justify-center pt-3 pb-2">
+                <div className="w-12 h-1 rounded-full bg-slate-300"></div>
+              </div>
+
+              {/* Header */}
+              <div className="px-6 pt-4 pb-6 border-b border-slate-100">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h2 className="text-2xl font-bold text-slate-900 mb-1">
+                      Criar grupo
+                    </h2>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      Configure o nome e o mínimo em WLD necessário para entrar.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsCreating(false)}
+                    className="shrink-0 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-500 hover:text-slate-900 transition-colors ml-4"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Form */}
+              <div className="px-6 py-6 space-y-5">
+                <label className="block space-y-2">
+                  <span className="text-sm font-bold text-slate-900">
+                    Nome do grupo
+                  </span>
+                  <input
+                    value={newGroupName}
+                    onChange={(e) => setNewGroupName(e.target.value)}
+                    placeholder="Ex.: Builders SP"
+                    className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-sm font-normal text-slate-900 outline-none ring-2 ring-transparent focus:bg-white focus:border-slate-300 focus:ring-slate-200 transition-all"
+                  />
+                </label>
+
+                <label className="block space-y-2">
+                  <span className="text-sm font-bold text-slate-900">
+                    Mínimo em WLD para entrar
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="shrink-0 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 text-white px-4 py-3 text-xs font-bold shadow-sm">
+                      WLD
+                    </span>
+                    <input
+                      value={newGroupMinWld}
+                      onChange={(e) => setNewGroupMinWld(e.target.value)}
+                      inputMode="decimal"
+                      placeholder="0.50"
+                      className="flex-1 rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-sm font-normal text-slate-900 outline-none ring-2 ring-transparent focus:bg-white focus:border-slate-300 focus:ring-slate-200 transition-all"
+                    />
+                  </div>
+                </label>
+
+                {error && (
+                  <div className="rounded-xl bg-amber-50 border-2 border-amber-200 px-4 py-3">
+                    <p className="text-sm font-semibold text-amber-800 flex items-center gap-2">
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                        />
+                      </svg>
+                      {error}
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-3 pt-2">
+                  <button
+                    onClick={handleCreate}
+                    className="w-full rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-200 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
+                  >
+                    Criar grupo
+                  </button>
+                  <button
+                    onClick={() => setIsCreating(false)}
+                    className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-bold text-slate-700 transition-all duration-200 hover:border-slate-300 hover:bg-slate-50"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </Page.Main>
     </>
   );
