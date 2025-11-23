@@ -34,7 +34,8 @@ export default function Home() {
 
   // Load groups from localStorage
   useEffect(() => {
-    const loadGroups = () => {
+    // Initial load with skeleton
+    const initialLoad = () => {
       setIsLoading(true);
       // Simulate loading for better UX
       setTimeout(() => {
@@ -43,31 +44,36 @@ export default function Home() {
       }, 300);
     };
     
-    loadGroups();
+    // Update groups without showing skeleton
+    const updateGroups = () => {
+      setJoinedGroups(getJoinedGroups());
+    };
+    
+    initialLoad();
     
     // Listener for localStorage changes (from other tabs)
     const handleStorageChange = () => {
-      loadGroups();
+      updateGroups();
     };
     
     // Listener for when page receives focus (returning from another page)
     const handleFocus = () => {
-      loadGroups();
+      updateGroups();
     };
     
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('focus', handleFocus);
     
     // Polling to detect changes in the same tab
-    const interval = setInterval(loadGroups, 1000);
+    const interval = setInterval(updateGroups, 1000);
     
     // Listener for custom events (when groups are added)
-    window.addEventListener('groupsUpdated', loadGroups);
+    window.addEventListener('groupsUpdated', updateGroups);
     
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('focus', handleFocus);
-      window.removeEventListener('groupsUpdated', loadGroups);
+      window.removeEventListener('groupsUpdated', updateGroups);
       clearInterval(interval);
     };
   }, []);
